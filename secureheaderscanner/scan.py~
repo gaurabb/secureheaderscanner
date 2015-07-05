@@ -31,7 +31,7 @@ class Scan:
 		file = open(self.fname)			
 		try:
 			for line in file:
-				print(line)
+				print(line,end='')
 		except:
 			return False
 		finally:

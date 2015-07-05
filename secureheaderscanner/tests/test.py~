@@ -3,6 +3,10 @@ from scan import *
 
 class TestSecureHeaderScanner(unittest.TestCase):
 	
+	def test_run_scanner(self):
+		url_to_check = "https://twitter.com"
+		
+	
 	'''
 	UNIT TEST FOR listCurrentUrlList
 	'''
