@@ -2,3 +2,4 @@ test-1.py
 url_list.txt
 *.pyc
 *.py~
+*.*~
