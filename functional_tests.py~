@@ -6,7 +6,7 @@ class SecureHeaderScannerTest(unittest.TestCase):
 		self.assertEqual(os.path.isfile('url_list.txt'), True, 'File does not exists.')
 
 	def check_file_with_urls_not_empty(self):
-		self.assertEqual(os.path.getsize('url_list.txt')>0, True, 'File is empty')
+		self.assertEqual(os.path.getsize('url_list.txt')>0, True, 'File is empty.')
 			
 	def test_run_scan_read_report_header(self):
 		# The file containing a list of websites to check is made available in the root scan folder

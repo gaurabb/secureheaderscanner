@@ -15,7 +15,7 @@ class SecureHeaderScannerTest(unittest.TestCase):
 		self.check_file_with_urls_not_empty()
 		#self.fail('Finish the test') ##self.fail just fails no matter what, producing the error message given.  
 		# The scan reads one url at a time and sends out a http GET request to the website
-		# The scanner reads all the response headers and reports the ones listed in the config file in a dictionary format
+		# The scanner reads all the response headers and reports the ones listed in the config file in a dictionary format. Check This.
 		pass
 
 if __name__=='__main__':
