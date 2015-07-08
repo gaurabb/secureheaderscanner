@@ -1,7 +1,7 @@
 
 from setuptools import setup
 setup(name='secureheaderscanner',
-      version='0.1',
+      version='0.5',
       description='Scan URLs for presence of secure HTTP headers',
       url='http://github.com/gaurabb/secureheaderscanner',
       author='Gaurab B',
