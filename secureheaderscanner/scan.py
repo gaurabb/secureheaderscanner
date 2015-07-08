@@ -1,4 +1,4 @@
-import os.path
+import os
 import urllib.request
 from urllib.error import HTTPError
 from urllib.request import urlcleanup
@@ -16,15 +16,20 @@ class Scan:
 			else:
 				self.fname = None
 		# Create a list of headers to check
-		self.listHeaders = {"content-security-policy","x-frame-options", "x-xss-protection", "x-content-type-options", "strict-transport-security", "x-download-options", "x-permitted-cross-domain-policies"}
+		self.listHeaders = {"content-security-policy",
+						"x-frame-options", 
+						"x-xss-protection", 
+						"x-content-type-options", 
+						"strict-transport-security", 
+						"x-download-options", 
+						"x-permitted-cross-domain-policies"}
 		#Create a dictionay to contain the count of headers
 		self.dictHeaderCount = dict()
 		#Create a valied url template expected
 		self.validurlformat = "<scheme>://<address>:<port>"
 
-	'''
-	Prints the current list of urls to scan from the file url_list.txt into console
-	'''		
+	
+	#Prints the current list of urls to scan from the file url_list.txt into console, if such a file is provided.		
 	def listCurrentUrlList(self):
 		if self.fname is  None:
 			return False
@@ -36,7 +41,7 @@ class Scan:
 			return False
 		finally:
 			file.close()
-		return True
+
 	'''
 	1. Attempts to open the url provided as input
 	2. Read the Response Headers 
@@ -66,11 +71,11 @@ class Scan:
 				
 	'''
 	1. Read one url at a time from the file, fname
-	3. Call read_header with the url
-	4. Repeat #2 and #3 till end of all Urls in scope
+	2. Call read_header with the url
+	3. Repeat #2 and #3 till end of all Urls in scope
 	4. Return a dictionary object that contains the response header and the number of responses that has this header in [header: #] format
 	'''		
-	def scan(self):
+	def scanUrlsInFile(self):
 		if self.fname is None:
 			return False
 		try:
@@ -85,4 +90,14 @@ class Scan:
 		finally:
 			file.close()
 		return self.dictHeaderCount
+
+	'''
+	1. Read the url provided as input
+	2. Call read_header with the url
+	3. Return a dictionary object that contains the response header and the number of responses that has this header in [header: #] format
+	'''		
+	def scanUrl(self, strUrl):
+		if self.read_header(strUrl):
+			return self.dictHeaderCount
+		return False
 

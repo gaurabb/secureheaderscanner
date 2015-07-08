@@ -3,45 +3,17 @@ from scan import *
 
 class TestSecureHeaderScanner(unittest.TestCase):
 	
-	'''
-	UNIT TEST FOR listCurrentUrlList
-	'''
-	def test_listCurrentUrlList_pass(self):
-		'''Test that the function lists all the Urls in the url_list.txt file in the root'''
-		obj = Scan("url_list.txt")
-		result = obj.listCurrentUrlList()
-		self.assertEqual(result, True)
-	
-	def test_listCurrentUrlList_fail(self):
-		'''Test that the function returns False when url_list.txt file is not present or empty'''
-		obj = Scan("url_list1.txt")
-		result = obj.listCurrentUrlList()
-		self.assertEqual(result, False)
-	'''
-	UNIT TEST FOR read_header
-	'''
-	def test_read_header_pass(self):
-		obj = Scan("url_list.txt")
-		result = obj.read_header("http://bing.com")
-		self.assertEqual(result, True)
-	
-	def test_read_header_fail(self):
-		obj = Scan("url_list.txt")
-		result = obj.read_header("")
-		self.assertEqual(result, False)
-		
-	'''
-	UNIT TEST FOR scan
-	'''
-	def test_scan_pass(self):
-		obj = Scan("url_list.txt")
-		result = obj.scan()
-		self.assertEqual(isinstance(result,dict), True)
-	
-	def test_scan_fail(self):
-		obj = Scan("url_list1.txt")
-		result = obj.scan()
-		self.assertEqual(result, False)
+	def test_can_report_headers_for_single_url(self):
+		objScanUrl = Scan()
+		result = objScanUrl.scanUrl("https://www.twitter.com")
+		#self.assertEqual(result, True, "Failed to scan the single url supplied.")
+		assert isinstance(result, dict), "Scan of the single url did not return a dictionary object as expected."
+
+	def test_can_report_headers_for_urls_in_a_file(self):
+		objScanUrlsInFile = Scan("/root/secureheaderscanner/url_list.txt") # ToDo: The path is hardcoded and needs to be updated.
+		result = objScanUrlsInFile.scanUrlsInFile()
+		assert isinstance(result, dict), "Failed to scan the Urls in the file."
 
 if __name__ == '__main__':
-    unittest.main()
+	unittest.main(warnings='ignore') # To prevent: "./usr/lib/python3.2/socket.py:350: ResourceWarning: unclosed <socket.socket object, fd=4, family=2, type=1, proto=6>  self._sock = None
+	unittest.main()
