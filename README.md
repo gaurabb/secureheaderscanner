@@ -8,8 +8,8 @@ $ pip install secureheaderscanner
 ```
 
 ## Headers scanned
-Header Name
-| --- |
+Header
+--- |
 [Content-Security-Policy (CSP)](http://www.w3.org/TR/CSP2/)
 [X-Frame-Options](https://tools.ietf.org/html/draft-ietf-websec-x-frame-options-02) 
 [X-XSS-Protection](http://msdn.microsoft.com/en-us/library/dd565647(v=vs.85).aspx) 
