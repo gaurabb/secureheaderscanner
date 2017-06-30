@@ -10,7 +10,7 @@ class TestSecureHeaderScanner(unittest.TestCase):
 		assert isinstance(result, dict), "Scan of the single url did not return a dictionary object as expected."
 
 	def test_can_report_headers_for_urls_in_a_file(self):
-		objScanUrlsInFile = scan("/root/secureheaderscanner/url_list.txt") # ToDo: The path is hardcoded and needs to be updated.
+		objScanUrlsInFile = scan("url_list.txt") # ToDo: The path is hardcoded and needs to be updated.
 		result = objScanUrlsInFile.scanUrlsInFile()
 		assert isinstance(result, dict), "Failed to scan the Urls in the file."
 
