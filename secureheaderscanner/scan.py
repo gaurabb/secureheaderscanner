@@ -3,11 +3,11 @@ import urllib.request
 from urllib.error import HTTPError
 from urllib.request import urlcleanup
 
-class Scan:
+class scan:
 	'''
-	1. Check that a file contain newline separated URLS exists
-	2. If not return error 
-	3. Set the headers to check
+	Two actions are preformed:
+	1. Check that a file containing newline separated URLS exists - if not return an error 
+	2. Set the headers to check
 	'''
 	def __init__(self, fname=None):		
 		if fname is not None:
@@ -15,7 +15,7 @@ class Scan:
 				self.fname = fname
 			else:
 				self.fname = None
-		# Create a list of headers to check
+		# List of header names to check
 		self.listHeaders = {"content-security-policy",
 						"x-frame-options", 
 						"x-xss-protection", 
@@ -23,13 +23,15 @@ class Scan:
 						"strict-transport-security", 
 						"x-download-options", 
 						"x-permitted-cross-domain-policies"}
-		#Create a dictionay to contain the count of headers
+		#Create a dictionay to contain the count of headers detected
 		self.dictHeaderCount = dict()
 		#Create a valied url template expected
 		self.validurlformat = "<scheme>://<address>:<port>"
 
 	
-	#Prints the current list of urls to scan from the file url_list.txt into console, if such a file is provided.		
+	'''
+	Prints the current list of urls to scan from the file url_list.txt into console, if such a file exists.
+	'''			
 	def listCurrentUrlList(self):
 		if self.fname is  None:
 			return False
