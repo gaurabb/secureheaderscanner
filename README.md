@@ -3,12 +3,24 @@ Simple Python module that provides methods that accept url(s) and return a summa
 
 ## Installation
 Install the extension with using pip. [Pypi Link](https://pypi.python.org/pypi/secureheaderscanner)
+
 ```bash
 $ pip install secureheaderscanner
 ```
 
 ## Usage instructions
 
+### Importing as a module
+```
+from scan import *
+::::
+objScanUrl = scan()
+:::::
+objScanUrl.scanUrl(<url>)
+:::::
+objScanUrlsInFile = scan("url_list.txt")
+result = objScanUrlsInFile.scanUrlsInFile()
+```
 
 ## Headers scanned
 - [Content-Security-Policy (CSP)](http://www.w3.org/TR/CSP2/) | 
