@@ -1,6 +1,9 @@
-
+from secureheaderscanner.scan import *
 
 class RunScan:
-	#put some code here
+	objScanUrlsInFile =  scan("secureheaderscanner/url_list.txt")
+	result = objScanUrlsInFile.scanUrlsInFile()
+	for info in result:
+		print("{0}: {1}".format(info,result[info]))
 
 
