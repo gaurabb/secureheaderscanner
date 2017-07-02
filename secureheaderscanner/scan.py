@@ -12,19 +12,32 @@ class scan:
 	def __init__(self, fname=None):		
 		if fname is not None:
 			if(os.path.isfile(fname)):
+				print("INFO: URL file exists")
 				self.fname = fname
 			else:
+				print("INFO: URL file does not exists")
 				self.fname = None
 		# List of header names to check
-		self.listHeaders = {"content-security-policy",
+		'''self.listHeaders = {
+						"content-security-policy",
 						"x-frame-options", 
 						"x-xss-protection", 
 						"x-content-type-options", 
 						"strict-transport-security", 
 						"x-download-options", 
 						"x-permitted-cross-domain-policies"}
-		#Create a dictionay to contain the count of headers detected
-		self.dictHeaderCount = dict()
+						'''
+		# #Create a dictionay to contain the count of headers detected
+		# self.dictUrlToHeaderMap = dict([
+		# 				("content-security-policy", 0),
+		# 				("x-frame-options", 0), 
+		# 				("x-xss-protection", 0), 
+		# 				("x-content-type-options", 0), 
+		# 				("strict-transport-security", 0), 
+		# 				("x-download-options", 0), 
+		# 				("x-permitted-cross-domain-policies", 0)
+		# 				])
+		self.finalResult = dict()
 		#Create a valied url template expected
 		self.validurlformat = "<scheme>://<address>:<port>"
 
@@ -54,21 +67,33 @@ class scan:
 	def read_header(self,urlstring):
 		if urlstring is None or not urlstring:
 			return False
-		urllib.request.urlcleanup()		
+		urllib.request.urlcleanup()
 		try:
+			# Create a dictionay to contain the count of headers detected
+			# ToDO: There must be a better way then to create it every time but 
+			# making it global screws up the header counts
+			dictUrlToHeaderMap = dict([
+						("content-security-policy", 0),
+						("x-frame-options", 0), 
+						("x-xss-protection", 0), 
+						("x-content-type-options", 0), 
+						("strict-transport-security", 0), 
+						("x-download-options", 0), 
+						("x-permitted-cross-domain-policies", 0)
+						])
 			responseData = urllib.request.urlopen(urlstring).info()
-			for header in self.listHeaders:
-				if responseData.get(header):
-					if header in self.dictHeaderCount:
-						self.dictHeaderCount[header] += 1
-					else:
-						self.dictHeaderCount[header] =1
+			for entry in dictUrlToHeaderMap:
+				getTheHeader = responseData.get(entry)
+				if getTheHeader:
+					dictUrlToHeaderMap[entry] += 1			
 		except HTTPError as e:
-			raise HTTPError("Error processing url: "+ urlstring + ". Error: " + e )
+			raise HTTPError("Error processing url: {0}. Error: {1}".format(urlstring, e ))
 			return False
 		except Exception as e:
-			raise ValueError("Error processing '%s' url. Check that the format is :%s" % (urlstring, self.validurlformat))
+			raise ValueError("Error processing {0} url. Check that the format is :{1}".format(urlstring, self.validurlformat))
 			return False		
+		# Create the final dictionaty object that maps the URL and the header count results
+		self.finalResult[(urlstring.rstrip())] = dictUrlToHeaderMap
 		return True
 				
 	'''
@@ -79,19 +104,22 @@ class scan:
 	'''		
 	def scanUrlsInFile(self):
 		if self.fname is None:
+			print("ERROR: File containing URLs is not available")
 			return False
 		try:
+			print("INFO: Opening the URL file")
 			file = open(self.fname)		
 			for line in file:
+				print("INFO: Checking for {0}".format(line.rstrip()))
 				if(self.read_header(line)):
 					continue
 				else:
-					raise ValueError("Error processing '%s' url. Check that the format is :%s" % (line, self.validurlformat))
+					raise ValueError("ERROR: Error processing '%s' url. Check that the format is :%s" % (line, self.validurlformat))
 		except Exception as e:
-			return False
+			raise ValueError("ERROR: {0}".format(e))
 		finally:
 			file.close()
-		return self.dictHeaderCount
+		return self.finalResult
 
 	'''
 	1. Read the url provided as input
